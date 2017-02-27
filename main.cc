@@ -8,5 +8,6 @@ int main(int argc, char *argv[])
     auto w = paint_widget::make();
     w->show();
 
+	
     return a.exec();
 }
