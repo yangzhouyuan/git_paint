@@ -70,19 +70,21 @@ bool paint_widget::init_data()
 
     data->freebutton->setChecked(true);
 
+    this->setStyleSheet("border:2px groove gray;border-radius:10px;padding:2px 4px;");
+
     data->save = new QPushButton ("Save", this);
-    data->save->setStyleSheet("border:2px groove gray;border-radius:10px;padding:2px 4px;");
-    data->pen_color = new QPushButton ("Pen_Color", this);
-    data->pen_color->setStyleSheet("border:2px groove gray;border-radius:10px;padding:2px 4px;");
+//    data->save->setStyleSheet("border:2px groove gray;border-radius:10px;padding:2px 4px;");
+    data->pen_color = new QPushButton (this);
+//    data->pen_color->setStyleSheet("border:2px groove gray;border-radius:10px;padding:2px 4px;");
     data->brush_color = new QPushButton ("Brush_Color", this);
-    data->brush_color->setStyleSheet("border:2px groove gray;border-radius:10px;padding:2px 4px;");
+//    data->brush_color->setStyleSheet("border:2px groove gray;border-radius:10px;padding:2px 4px;");
 
     data->pen_thickness = new QComboBox (this);
     data->pen_thickness->addItem("细");
     data->pen_thickness->addItem("粗");
 
     data->clearbutton = new QPushButton("Clear", this);
-    data->clearbutton->setStyleSheet("border:2px groove gray;border-radius:10px;padding:2px 4px;");
+//    data->clearbutton->setStyleSheet("border:2px groove gray;border-radius:10px;padding:2px 4px;");
 
 
     return true;
