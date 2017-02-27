@@ -24,6 +24,7 @@ public:
         {
             return nullptr;
         }
+
         return ret;
     }
 
