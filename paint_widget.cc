@@ -14,6 +14,7 @@
 #include <QFileDialog>
 #include <QRadioButton>
 #include <QStandardPaths>
+#include <QPixmap>
 
 
 struct impl_paint_widget
@@ -44,11 +45,12 @@ paint_widget::paint_widget(QWidget *parent)
 
 bool paint_widget::init()
 {
+
     init_data ();
     init_layout ();
     init_button ();
     this->resize(400, 300);
-
+    add_brush_color();
     return true;
 }
 
@@ -76,8 +78,7 @@ bool paint_widget::init_data()
 //    data->save->setStyleSheet("border:2px groove gray;border-radius:10px;padding:2px 4px;");
     data->pen_color = new QPushButton (this);
 //    data->pen_color->setStyleSheet("border:2px groove gray;border-radius:10px;padding:2px 4px;");
-    data->brush_color = new QPushButton ("Brush_Color", this);
-//    data->brush_color->setStyleSheet("border:2px groove gray;border-radius:10px;padding:2px 4px;");
+    data->brush_color = new QPushButton (this);
 
     data->pen_thickness = new QComboBox (this);
     data->pen_thickness->addItem("细");
@@ -213,16 +214,26 @@ void paint_widget::save_pixmap()
 
 void paint_widget::choose_brush_color()
 {
-    QColor color = QColorDialog::getColor ();
-    if (color.isValid())
+    auto color =  QColorDialog::getColor();
+    if(!color.isValid())
     {
-        data->view->set_brush(color);
-
-        QPalette brush_pal;
-        brush_pal.setColor(QPalette::ButtonText, color);
-        data->brush_color->setPalette(brush_pal);
     }
+    else
+    {
+        QPixmap pix(100,100);
+        pix.fill(Qt::transparent);
+        {
+            QPainter painter (&pix);
+            QPen pen;
+            pen.setWidth(3);
+            pen.setColor(Qt::black);
+            painter.setPen(pen);
+            painter.setBrush(color);
+            painter.drawRect(QRect (QPoint (0, 0), QPoint (100, 100)));
+        }
+        data->brush_color->setIcon(pix);
 
+     }
 }
 
 void paint_widget::choose_pen_thickness(const QString &text)
@@ -232,18 +243,33 @@ void paint_widget::choose_pen_thickness(const QString &text)
     data->view->set_pen(pen);
 }
 
+void paint_widget::add_brush_color()
+{
+    QPixmap pix(100,100);
+    pix.fill(Qt::transparent);
+    {
+        QPainter painter (&pix);
+        QPen pen;
+        pen.setWidth(3);
+        pen.setColor(Qt::black);
+        painter.setPen(pen);
+        painter.setBrush(Qt::black);
+        painter.drawRect(QRect (QPoint (0, 0), QPoint (100, 100)));
+    }
+   data->brush_color->setIcon(pix);
+}
+
 void paint_widget::choose_pen_color()
 {
-    QColor color = QColorDialog::getColor ();
-    if (color.isValid())
-    {
-        auto pen = data->view->pen();
-        pen.setColor(color);
-        data->view->set_pen(pen);
+//    QColor color = QColorDialog::getColor ();
+//    if (color.isValid())
+//    {
+//        auto pen = data->view->pen();
+//        pen.setColor(color);
+//        data->view->set_pen(pen);
 
-        QPalette pen_pal;
-        pen_pal.setColor(QPalette::ButtonText, color);
-        data->pen_color->setPalette(pen_pal);
+//        QPalette pen_pal;
+//        pen_pal.setColor(QPalette::ButtonText, color);
+//        data->pen_color->setPalette(pen_pal);
 
-    }
 }

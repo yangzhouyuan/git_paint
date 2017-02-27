@@ -30,6 +30,7 @@ private:
     void choose_pen_color ();
     void choose_brush_color ();
     void choose_pen_thickness (const QString &text);
+    void add_brush_color ();
 private:
     unique_ptr<impl_paint_widget> data;
 };
